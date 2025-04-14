@@ -22,10 +22,14 @@ public:
 protected:
     void paintEvent(QPaintEvent* event) override;
     void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
 private:
     Ui::Widget *ui;
     int rows;  // 行数
     int cols;  // 列数
+    int lastRow; // 维护最后绘制位置
+    int lastCol; // 不重复绘制表格
     int navBarHeight; //状态栏高度
     QTimer *timer;
     bool nextStatus(std::vector<int>& neighbors, bool status);
@@ -33,6 +37,7 @@ private:
     std::vector<std::vector<int>> grid;  // 存储格子数据
 
     bool isRunning;  // 标记是否正在运行
+    bool isDrawing;  // 标记拖动绘制
     QPushButton *toggleButton;  // 按钮
     QPushButton *applyButton;   // 应用按钮
     QLineEdit *rowsInput;       // 行数输入框

@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 
 
     Widget w;
-    w.resize(500,500);
+    w.resize(500,530);
     w.setWindowTitle("Life game");
     w.show();
 

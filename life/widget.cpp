@@ -16,6 +16,7 @@ Widget::Widget(QWidget *parent)
     toggleButton = new QPushButton("Start", this);
     toggleButton->move(10, 0);
     navBarHeight = toggleButton->height();
+    qDebug() << navBarHeight;
     connect(toggleButton, &QPushButton::clicked, this, [this]() {
         if (isRunning) {
             // 停止定时器
@@ -49,6 +50,7 @@ Widget::Widget(QWidget *parent)
     applyButton = new QPushButton("Apply", this);
     applyButton->setGeometry(320, 0, 80, navBarHeight);  // 设置按钮位置和大小
     connect(applyButton, &QPushButton::clicked, this, &Widget::applyGridSize);
+
 }
 
 void Widget::applyGridSize() {
@@ -69,12 +71,12 @@ void Widget::paintEvent(QPaintEvent *) {
     QPainter painter(this);
 
     int gridWidth = width() / cols;  // 每个格子的宽度
-    int gridHeight = (height() - toggleButton->height()) / rows; // 每个格子的高度，减去按钮的高度
+    int gridHeight = (height() - navBarHeight) / rows; // 每个格子的高度，减去按钮的高度
 
     // 绘制网格区域
     for (int row = 0; row < rows; ++row) {
         for (int col = 0; col < cols; ++col) {
-            QRect rect(col * gridWidth, row * gridHeight + toggleButton->height(), gridWidth, gridHeight);
+            QRect rect(col * gridWidth, row * gridHeight + navBarHeight, gridWidth, gridHeight);
             if (grid[row][col] == 1) {
                 painter.setBrush(Qt::black);  // 值为 1 用黑色填充
             } else {
@@ -87,38 +89,68 @@ void Widget::paintEvent(QPaintEvent *) {
     // 绘制网格线
     painter.setPen(Qt::gray);
     for (int row = 0; row <= rows; ++row) {
-        painter.drawLine(0, row * gridHeight + toggleButton->height(), width(), row * gridHeight + toggleButton->height()); // 水平线
+        painter.drawLine(0, row * gridHeight + navBarHeight, width(), row * gridHeight + navBarHeight); // 水平线
     }
     for (int col = 0; col <= cols; ++col) {
-        painter.drawLine(col * gridWidth, toggleButton->height(), col * gridWidth, height()); // 垂直线
+        painter.drawLine(col * gridWidth, navBarHeight, col * gridWidth, height()); // 垂直线
     }
 }
 
 void Widget::mousePressEvent(QMouseEvent *event)
 {
     // 获取点击的坐标
-    int x = event->x();
-    int y = event->y();
+    int x = event->position().x();
+    int y = event->position().y();
 
     // 确保点击的位置不在按钮区域上
-    if (y < toggleButton->height()) {
+    if (y < navBarHeight) {
         return;  // 点击在按钮区域，忽略
     }
 
     // 计算点击位置对应的网格行列
     int gridWidth = width() / cols;
-    int gridHeight = (height() - toggleButton->height()) / rows;
+    int gridHeight = (height() - navBarHeight) / rows;
 
     int col = x / gridWidth;
-    int row = (y - toggleButton->height()) / gridHeight;
+    int row = (y - navBarHeight) / gridHeight;
 
     // 检查计算出的行列是否有效
     if (row >= 0 && row < rows && col >= 0 && col < cols) {
         // 改变对应位置的grid值（反转0和1）
         grid[row][col] = (grid[row][col] + 1) % 2;
+        isDrawing = true;
+        lastRow = row;
+        lastCol = col;
         update();  // 更新界面
     }
 }
+
+void Widget::mouseMoveEvent(QMouseEvent *event)
+{
+    if (isDrawing) {  // 如果正在绘制
+        int x = event->position().x();
+        int y = event->position().y();
+
+        int gridWidth = width() / cols;
+        int gridHeight = (height() - navBarHeight) / rows;
+
+        int col = x / gridWidth;
+        int row = (y - navBarHeight) / gridHeight;
+
+        if (row >= 0 && row < rows && col >= 0 && col < cols && (row != lastRow || col != lastCol)) {
+            grid[row][col] = (grid[row][col] + 1) % 2;  // 切换状态
+            lastRow = row;
+            lastCol = col;
+            update();  // 更新界面
+        }
+    }
+}
+
+void Widget::mouseReleaseEvent(QMouseEvent *event)
+{
+    isDrawing = false;  // 停止绘制
+}
+
 
 bool Widget::nextStatus(std::vector<int>& neighbors, bool status){
     int ans = 0;
