@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 #include <QMouseEvent>
 
+#include <QIntValidator>
 Widget::Widget(QWidget *parent)
     : QWidget(parent), rows(10), cols(10),grid(rows, std::vector<int>(cols, 0)), isRunning(false)
 {
@@ -14,6 +15,7 @@ Widget::Widget(QWidget *parent)
 
     toggleButton = new QPushButton("Start", this);
     toggleButton->move(10, 0);
+    navBarHeight = toggleButton->height();
     connect(toggleButton, &QPushButton::clicked, this, [this]() {
         if (isRunning) {
             // 停止定时器
@@ -28,6 +30,38 @@ Widget::Widget(QWidget *parent)
         }
     });
 
+    rowsLabel = new QLabel("Rows:", this);
+    rowsLabel->setGeometry(100, 0, 40, navBarHeight);  // 设置标签位置和大小
+    rowsInput = new QLineEdit(this);
+    rowsInput->setGeometry(150, 0, 50, navBarHeight);  // 设置输入框位置和大小
+    rowsInput->setValidator(new QIntValidator(1, 100, this));  // 限制输入为数字
+    rowsInput->setText(QString::number(rows));
+
+    // 创建列数标签和输入框
+    colsLabel = new QLabel("Cols:", this);
+    colsLabel->setGeometry(210, 0, 40, navBarHeight);  // 设置标签位置和大小
+    colsInput = new QLineEdit(this);
+    colsInput->setGeometry(260, 0, 50, navBarHeight);  // 设置输入框位置和大小
+    colsInput->setValidator(new QIntValidator(1, 100, this));  // 限制输入为数字
+    colsInput->setText(QString::number(cols));
+
+    // 创建应用按钮
+    applyButton = new QPushButton("Apply", this);
+    applyButton->setGeometry(320, 0, 80, navBarHeight);  // 设置按钮位置和大小
+    connect(applyButton, &QPushButton::clicked, this, &Widget::applyGridSize);
+}
+
+void Widget::applyGridSize() {
+    // 获取输入的行列数并更新
+    rows = rowsInput->text().toInt();
+    cols = colsInput->text().toInt();
+
+    // 更新grid并重绘
+    grid.resize(rows);
+    for (auto &row : grid) {
+        row.resize(cols, 0);
+    }
+    update();  // 更新界面
 }
 
 void Widget::paintEvent(QPaintEvent *) {

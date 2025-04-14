@@ -1,0 +1,9 @@
+/Users/jrgong/jrCode/lifeGame/life/CMakeFiles/life.dir
+/Users/jrgong/jrCode/lifeGame/life/CMakeFiles/edit_cache.dir
+/Users/jrgong/jrCode/lifeGame/life/CMakeFiles/rebuild_cache.dir
+/Users/jrgong/jrCode/lifeGame/life/CMakeFiles/list_install_components.dir
+/Users/jrgong/jrCode/lifeGame/life/CMakeFiles/install.dir
+/Users/jrgong/jrCode/lifeGame/life/CMakeFiles/install/local.dir
+/Users/jrgong/jrCode/lifeGame/life/CMakeFiles/install/strip.dir
+/Users/jrgong/jrCode/lifeGame/life/CMakeFiles/life_autogen_timestamp_deps.dir
+/Users/jrgong/jrCode/lifeGame/life/CMakeFiles/life_autogen.dir

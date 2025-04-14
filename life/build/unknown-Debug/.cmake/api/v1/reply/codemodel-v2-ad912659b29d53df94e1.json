@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-66925461aae6d8c4f006.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "life",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "life::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-life-Debug-67fabf595d4926954e25.json",
+					"name" : "life",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "life_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-life_autogen-Debug-153348e39d306077c4b2.json",
+					"name" : "life_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "life_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-life_autogen_timestamp_deps-Debug-b7c9296ba77083db219f.json",
+					"name" : "life_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/Users/jrgong/jrCode/lifeGame/life/build/unknown-Debug",
+		"source" : "/Users/jrgong/jrCode/lifeGame/life"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 8
+	}
+}
