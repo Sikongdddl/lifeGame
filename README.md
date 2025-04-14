@@ -20,4 +20,8 @@ There are tons of period structures which are everlasting in life game.
 You can modified the initial status but you can't change the size of map. Actually a 10*10 metrix is big enough for some of these everlasting structures.
 If you have any ideas interesting, feel free to commit your pull-request or issue!
 
-sikongdddl 2025.1.12
+# something uninteresting
+I changed device to macOS so there are no release version for windows or Linux OS.
+If you wanna have a try with new features, feel free to connect with me by email.
+
+sikongdddl 2025.4.14
