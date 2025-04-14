@@ -10,13 +10,33 @@
 Widget::Widget(QWidget *parent)
     : QWidget(parent), rows(10), cols(10),grid(rows, std::vector<int>(cols, 0)), isRunning(false)
 {
+    navBarHeight = 30;
+
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Widget::updateGrid);
 
     toggleButton = new QPushButton("Start", this);
-    toggleButton->move(10, 0);
-    navBarHeight = toggleButton->height();
-    qDebug() << navBarHeight;
+    toggleButton->setGeometry(10,0,50,navBarHeight);
+
+
+    clearButton = new QPushButton("Clear",this);
+    clearButton->setGeometry(350,0,70,navBarHeight);
+    connect(clearButton, &QPushButton::clicked, this, [this]() {
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                grid[i][j] = 0;
+            }
+        }
+        update();  // 触发重绘
+    });
+
+    stepButton = new QPushButton("Step",this);
+    stepButton->setGeometry(70,0,50,navBarHeight);
+
+    connect(stepButton, &QPushButton::clicked, this, [this]() {
+        updateGrid();  // 只运行一轮
+    });
+
     connect(toggleButton, &QPushButton::clicked, this, [this]() {
         if (isRunning) {
             // 停止定时器
@@ -32,23 +52,23 @@ Widget::Widget(QWidget *parent)
     });
 
     rowsLabel = new QLabel("Rows:", this);
-    rowsLabel->setGeometry(100, 0, 40, navBarHeight);  // 设置标签位置和大小
+    rowsLabel->setGeometry(130, 0, 40, navBarHeight);  // 设置标签位置和大小
     rowsInput = new QLineEdit(this);
-    rowsInput->setGeometry(150, 0, 50, navBarHeight);  // 设置输入框位置和大小
+    rowsInput->setGeometry(180, 0, 50, navBarHeight);  // 设置输入框位置和大小
     rowsInput->setValidator(new QIntValidator(1, 100, this));  // 限制输入为数字
     rowsInput->setText(QString::number(rows));
 
     // 创建列数标签和输入框
     colsLabel = new QLabel("Cols:", this);
-    colsLabel->setGeometry(210, 0, 40, navBarHeight);  // 设置标签位置和大小
+    colsLabel->setGeometry(240, 0, 40, navBarHeight);  // 设置标签位置和大小
     colsInput = new QLineEdit(this);
-    colsInput->setGeometry(260, 0, 50, navBarHeight);  // 设置输入框位置和大小
+    colsInput->setGeometry(290, 0, 50, navBarHeight);  // 设置输入框位置和大小
     colsInput->setValidator(new QIntValidator(1, 100, this));  // 限制输入为数字
     colsInput->setText(QString::number(cols));
 
     // 创建应用按钮
     applyButton = new QPushButton("Apply", this);
-    applyButton->setGeometry(320, 0, 80, navBarHeight);  // 设置按钮位置和大小
+    applyButton->setGeometry(430, 0, 70, navBarHeight);  // 设置按钮位置和大小
     connect(applyButton, &QPushButton::clicked, this, &Widget::applyGridSize);
 
 }

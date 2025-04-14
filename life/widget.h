@@ -40,6 +40,8 @@ private:
     bool isDrawing;  // 标记拖动绘制
     QPushButton *toggleButton;  // 按钮
     QPushButton *applyButton;   // 应用按钮
+    QPushButton *clearButton;   // 清空
+    QPushButton *stepButton;    //单步执行
     QLineEdit *rowsInput;       // 行数输入框
     QLineEdit *colsInput;       // 列数输入框
     QLabel *rowsLabel;          // 行数标签
